@@ -1,0 +1,59 @@
+server:
+  port: 2002
+  servlet:
+    context-path: /api/oauth
+    getToken: /v5/token
+    authorize: /api/oauth/v5/authorize
+    #    User Controller
+    registration: /v5/registration
+    accountLock: /v5/manage/account
+    roleRemoveFromUser: /v5/remove/role
+    getAllUsers: /v5/get/all
+    getByUserName: /v5/get/username
+    #    Role Controller
+    createRole: /v5/create
+    removeRole: /v5/remove
+    assignRolePermission: /v5/permission/assign
+    removeRolePermission: /v5/permission/remove
+    #    Permission Controller
+    createPermission: /v5/create
+    deletePermission: /v5/delete
+    #    Client Controller
+    createClient: /v5/registration
+    blockClient: /v5/block
+
+spring:
+  application:
+    name: auth-service
+  cloud:
+    kubernetes:
+      enabled: true
+      loadbalancer:
+        enabled: true
+      discovery:
+        enabled: false
+      reload:
+        enabled: true
+        mode: event
+        monitoring-config-maps: true
+        strategy: refresh
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - loggers
+          - health
+          - caches
+          - liveness
+          - prometheus
+          - env
+          - configprops
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
